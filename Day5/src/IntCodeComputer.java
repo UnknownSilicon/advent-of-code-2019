@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 public class IntCodeComputer {
-	public final int[] OPERATIONS = {1, 2, 3, 4, 99};
-	public final int[] NUM_PARAMS = {3, 3, 1, 1, 0};
+	public final int[] OPERATIONS = {1, 2, 3, 4, 5, 6, 7, 8, 99};
+	public final int[] NUM_PARAMS = {3, 3, 1, 1, 2, 2, 3, 3, 0};
 
 	private boolean debugMode = false;
 
@@ -121,8 +121,162 @@ public class IntCodeComputer {
 
 				outLoc = parameters[0];
 
-				System.out.println(ops[outLoc]);
+				if (opData[1] == 0) {
+					System.out.println(ops[outLoc]);
+				} else if (opData[1] == 1) {
+					System.out.println(outLoc);
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 4 at address " + ip);
+					System.exit(1);
+				}
+			} else if (operation == 5) {
+				// Jumps to the address in the second parameter if the value of the first parameter is non-zero
+				if (parameters.length != 2) {
+					System.out.println("Error! Parameter length for operation 5 at address " + ip + " is invalid!");
+				}
+
+				int val1 = 0;
+
+				if (opData[1] == 0) { // Position Mode
+					val1 = ops[parameters[0]];
+				} else if (opData[1] == 1) { // Immediate Mode
+					val1 = parameters[0];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 5 at address " + ip);
+					System.exit(1);
+				}
+
+				int jmpLoc = -1;
+
+				if (opData[2] == 0) { // Position Mode
+					jmpLoc = ops[parameters[1]];
+				} else if (opData[2] == 1) { // Immediate Mode
+					jmpLoc = parameters[1];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 5 at address " + ip);
+					System.exit(1);
+				}
+
+				if (val1 != 0) {
+					ip = jmpLoc;
+					continue;
+				}
+			} else if (operation == 6) {
+				// Jumps to the address in the second parameter if the value of the first parameter is non-zero
+				if (parameters.length != 2) {
+					System.out.println("Error! Parameter length for operation 6 at address " + ip + " is invalid!");
+				}
+
+				int val1 = 0;
+
+				if (opData[1] == 0) { // Position Mode
+					val1 = ops[parameters[0]];
+				} else if (opData[1] == 1) { // Immediate Mode
+					val1 = parameters[0];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 6 at address " + ip);
+					System.exit(1);
+				}
+
+				int jmpLoc = -1;
+
+				if (opData[2] == 0) { // Position Mode
+					jmpLoc = ops[parameters[1]];
+				} else if (opData[2] == 1) { // Immediate Mode
+					jmpLoc = parameters[1];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 6 at address " + ip);
+					System.exit(1);
+				}
+
+				if (val1 == 0) {
+					ip = jmpLoc;
+					continue;
+				}
+			} else if (operation == 7) {
+				// If the first parameter is less than the second parameter, store 1 in the 3rd parameter
+				// Parameters: [in1, in2, out]
+				if (parameters.length != 3) {
+					System.out.println("Error! Parameter length for operation 7 at address " + ip + " is invalid!");
+				}
+				int val1 = 0;
+				int val2 = 0;
+
+				int outLoc = -1;
+
+				if (opData[1] == 0) { // Position Mode
+					val1 = ops[parameters[0]];
+				} else if (opData[1] == 1) { // Immediate Mode
+					val1 = parameters[0];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 7 at address " + ip);
+					System.exit(1);
+				}
+
+				if (opData[2] == 0) { // Position Mode
+					val2 = ops[parameters[1]];
+				} else if (opData[2] == 1) { // Immediate Mode
+					val2 = parameters[1];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 7 at address " + ip);
+					System.exit(1);
+				}
+
+				if (opData[3] == 0) {
+					outLoc = parameters[2];
+				} else if (opData[3] == 1) {
+					System.out.println("Error! Operation 7 cannot take parameter mode 1 for parameter number 3 at address " + ip);
+					System.exit(1);
+				}
+
+				if (val1 < val2) {
+					ops[outLoc] = 1;
+				} else {
+					ops[outLoc] = 0;
+				}
+			} else if (operation == 8) {
+				// If the first parameter is less than the second parameter, store 1 in the 3rd parameter
+				// Parameters: [in1, in2, out]
+				if (parameters.length != 3) {
+					System.out.println("Error! Parameter length for operation 8 at address " + ip + " is invalid!");
+				}
+				int val1 = 0;
+				int val2 = 0;
+
+				int outLoc = -1;
+
+				if (opData[1] == 0) { // Position Mode
+					val1 = ops[parameters[0]];
+				} else if (opData[1] == 1) { // Immediate Mode
+					val1 = parameters[0];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 8 at address " + ip);
+					System.exit(1);
+				}
+
+				if (opData[2] == 0) { // Position Mode
+					val2 = ops[parameters[1]];
+				} else if (opData[2] == 1) { // Immediate Mode
+					val2 = parameters[1];
+				} else {
+					System.out.println("Error! Invalid parameter mode for operation 8 at address " + ip);
+					System.exit(1);
+				}
+
+				if (opData[3] == 0) {
+					outLoc = parameters[2];
+				} else if (opData[3] == 1) {
+					System.out.println("Error! Operation 8 cannot take parameter mode 1 for parameter number 3 at address " + ip);
+					System.exit(1);
+				}
+
+				if (val1 == val2) {
+					ops[outLoc] = 1;
+				} else {
+					ops[outLoc] = 0;
+				}
 			} else if (operation == 99) {
+				// Halts the program
 				if (debugMode) {
 					for (int o : ops) {
 						System.out.println(o);
