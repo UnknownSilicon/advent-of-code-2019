@@ -1,7 +1,10 @@
 import java.util.Scanner;
 
 public class IntCodeComputer {
+
+	// Add, Multiply, Input, Output, JumpIfTrue, JumpIfFalse, LessThan, EqualTo, Halt
 	public final int[] OPERATIONS = {1, 2, 3, 4, 5, 6, 7, 8, 99};
+	// [in1,in2,out], [in1,in2,out], [out], [in], [in, out], [in, out], [in1, in2, out], [in1, in2, out], []
 	public final int[] NUM_PARAMS = {3, 3, 1, 1, 2, 2, 3, 3, 0};
 
 	private boolean debugMode = false;
